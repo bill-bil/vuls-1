@@ -1,16 +1,14 @@
-package report
+package saas
 
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
 	"path"
 	"strings"
-	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -141,12 +139,4 @@ func (w SaasWriter) Write(rs ...models.ScanResult) (err error) {
 	}
 	util.Log.Infof("done")
 	return nil
-}
-
-func renameKeyNameUTC(scannedAt time.Time, uuid string, container models.Container) string {
-	timestr := scannedAt.UTC().Format(time.RFC3339)
-	if len(container.ContainerID) == 0 {
-		return fmt.Sprintf("%s/%s.json", timestr, uuid)
-	}
-	return fmt.Sprintf("%s/%s@%s.json", timestr, container.UUID, uuid)
 }
